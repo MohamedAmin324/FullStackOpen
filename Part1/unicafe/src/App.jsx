@@ -24,18 +24,10 @@ const App = () => {
 		}
 	};
 
-	const total = good + neutral + bad;
-
 	return (
 		<div>
 			<FeedBackPanel updateState={updateState} />
 			<Statistics good={good} neutral={neutral} bad={bad} />
-			<p>all: {total}</p>
-			<p>average: {good * 1 + bad * -1}</p>
-			<p>
-				positive:{' '}
-				{total === 0 ? 0 : (good / (good + neutral + bad)) * 100}%
-			</p>
 		</div>
 	);
 };
