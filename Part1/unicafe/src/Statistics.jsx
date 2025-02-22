@@ -1,6 +1,8 @@
 function Statistics({ good, neutral, bad }) {
 	const total = good + neutral + bad;
-	return (
+	return total === 0 ? (
+		'no feedback gathered'
+	) : (
 		<>
 			<p style={{ fontWeight: 'bold', fontSize: '30px' }}>Statistics</p>
 			<p>good: {good}</p>
