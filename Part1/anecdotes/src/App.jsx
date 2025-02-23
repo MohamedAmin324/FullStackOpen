@@ -12,16 +12,36 @@ const App = () => {
 		'The only way to go fast, is to go well.',
 	];
 
+	const [votes, setVotes] = useState(new Array(8).fill(0));
+
 	const [selected, setSelected] = useState(0);
 	const handleClick = () => {
 		const randomIndex = Math.floor(Math.random() * anecdotes.length);
 		setSelected(randomIndex);
 	};
+	const updateVote = () => {
+		votes[selected]++;
+		setVotes([...votes]);
+	};
+
+	const getMaxValueIndex = (list) => {
+		let maxValueIndex = 0;
+		list.forEach((item, index) => {
+			if (item > list[maxValueIndex]) maxValueIndex = index;
+		});
+		return maxValueIndex;
+	};
+
+	const mostFavorableIndex = getMaxValueIndex(votes);
 
 	return (
 		<>
 			<div>{anecdotes[selected]}</div>
+			<p>has {votes[selected]} votes</p>
+			<button onClick={updateVote}>Vote</button>
 			<button onClick={handleClick}>next anecdote</button>
+			<div>{anecdotes[mostFavorableIndex]}</div>
+			<p>has {votes[mostFavorableIndex]} votes</p>
 		</>
 	);
 };
