@@ -1,8 +1,9 @@
 function StatisticLine({ description, value }) {
 	return (
-		<p>
-			{description}: {value}
-		</p>
+		<tr>
+			<td>{description}</td>
+			<td>{value}</td>
+		</tr>
 	);
 }
 
