@@ -3,9 +3,9 @@ import Part from './Part';
 export default function Content({ parts }) {
 	return (
 		<>
-			<Part {...parts[0]} />
-			<Part {...parts[1]} />
-			<Part {...parts[2]} />
+			{parts.map(({ id, name, exercises }) => (
+				<Part key={id} name={name} exercises={exercises} />
+			))}
 		</>
 	);
 }
