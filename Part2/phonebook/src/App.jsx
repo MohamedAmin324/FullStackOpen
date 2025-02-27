@@ -5,8 +5,12 @@ const App = () => {
 	const [newName, setNewName] = useState('');
 
 	function handleSubmit(e) {
-    e.preventDefault();
+		e.preventDefault();
 		if (newName === '') return;
+		if (persons.findIndex(({ name }) => name === newName) !== -1) {
+			alert(`${newName} already exists!!!`);
+			return;
+		}
 
 		setPersons([...persons, { name: newName }]);
 		setNewName('');
