@@ -1,8 +1,14 @@
 import { useState } from 'react';
+import Filter from './Filter';
+import InputForm from './InputForm';
+import Persons from './Persons';
 
 const App = () => {
 	const [persons, setPersons] = useState([
-		{ name: 'Arto Hellas', telephone: 587555847 },
+		{ name: 'Arto Hellas', number: '040-123456', id: 1 },
+		{ name: 'Ada Lovelace', number: '39-44-5323523', id: 2 },
+		{ name: 'Dan Abramov', number: '12-43-234345', id: 3 },
+		{ name: 'Mary Poppendieck', number: '39-23-6423122', id: 4 },
 	]);
 	const [newName, setNewName] = useState('');
 	const [newNumber, setNewNumber] = useState('');
@@ -17,12 +23,15 @@ const App = () => {
 			return;
 		}
 
-		setPersons([...persons, { name: newName, telephone: newNumber }]);
+		setPersons([
+			...persons,
+			{ name: newName, number: newNumber, id: persons.length + 1 },
+		]);
 		setNewName('');
 		setNewNumber('');
 	}
 
-	function handleChange({ target: { value } }) {
+	function handleNumberChange({ target: { value } }) {
 		if (!verifyNumber(value)) {
 			alert('Enter a number');
 			return;
@@ -38,39 +47,28 @@ const App = () => {
 	}
 
 	const filteredPhoneBook = persons.filter(({ name }) =>
-		name.includes(filterCriteria)
+		name.toUpperCase().includes(filterCriteria.toUpperCase())
 	);
+
+	const handleFilterChange = (e) => setFilterCriteria(e.target.value);
 
 	return (
 		<div>
 			<h1>Phonebook</h1>
-			<div>
-				filter shown with:
-				<input
-					value={filterCriteria}
-					onChange={(e) => setFilterCriteria(e.target.value)}
-				/>
-			</div>
+			<Filter
+				filterCriteria={filterCriteria}
+				handleFilterChange={handleFilterChange}
+			/>
 			<h2>add a new contact</h2>
-			<form onSubmit={handleSubmit}>
-				<div>
-					name:
-					<input value={newName} onChange={(e) => setNewName(e.target.value)} />
-				</div>
-				<div>
-					number:
-					<input type='tel' value={newNumber} onChange={handleChange} />
-				</div>
-				<div>
-					<button type='submit'>add</button>
-				</div>
-			</form>
+			<InputForm
+				newName={newName}
+				newNumber={newNumber}
+				handleNameChange={(e) => setNewName(e.target.value)}
+				handleNumberChange={handleNumberChange}
+				handleSubmit={handleSubmit}
+			/>
 			<h2>Numbers</h2>
-			{filteredPhoneBook.map(({ name, telephone }, index) => (
-				<p key={index}>
-					{name} {telephone}
-				</p>
-			))}
+			<Persons filteredPhoneBook={filteredPhoneBook} />
 		</div>
 	);
 };
