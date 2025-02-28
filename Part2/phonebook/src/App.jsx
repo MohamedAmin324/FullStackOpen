@@ -6,6 +6,7 @@ const App = () => {
 	]);
 	const [newName, setNewName] = useState('');
 	const [newNumber, setNewNumber] = useState('');
+	const [filterCriteria, setFilterCriteria] = useState('');
 
 	function handleSubmit(e) {
 		e.preventDefault();
@@ -36,9 +37,21 @@ const App = () => {
 		);
 	}
 
+	const filteredPhoneBook = persons.filter(({ name }) =>
+		name.includes(filterCriteria)
+	);
+
 	return (
 		<div>
-			<h2>Phonebook</h2>
+			<h1>Phonebook</h1>
+			<div>
+				filter shown with:
+				<input
+					value={filterCriteria}
+					onChange={(e) => setFilterCriteria(e.target.value)}
+				/>
+			</div>
+			<h2>add a new contact</h2>
 			<form onSubmit={handleSubmit}>
 				<div>
 					name:
@@ -53,7 +66,7 @@ const App = () => {
 				</div>
 			</form>
 			<h2>Numbers</h2>
-			{persons.map(({ name, telephone }, index) => (
+			{filteredPhoneBook.map(({ name, telephone }, index) => (
 				<p key={index}>
 					{name} {telephone}
 				</p>
